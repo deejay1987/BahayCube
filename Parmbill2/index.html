@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiles States</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    
+</head>
+<body>
+    <div id="wrapper">
+        <table id="state_table">
+            <!-- <tr>
+                <td class="tiles" data-id="0" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+            </tr>
+
+            <tr>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+            </tr>
+
+            <tr>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+            </tr>
+            
+            <tr>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+                <td class="tiles" data-tile_state="0" role="button" data-bs-toggle="popover"></td>
+            </tr> -->
+        </table>
+        <!-- <button type="button" id="get_coordinates_btn">Get Coordinates</button> -->
+
+        <!-- Element Clone Block -->
+        <div class="hidden">
+            <textarea id="state_array"></textarea>
+            <!-- <button type="button" id="render_table_btn">Render Table</button> -->
+            <table class="state_table state_table_clone">
+                <tr class="tr_clone"></tr>
+                <tr>
+                    <td class="tiles tiles_clone" data-tile_state="0" role="button"></td>
+                    <!-- <td class="tiles tiles_clone" data-tile_state="0"></td> -->
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+#state_table{
+    border-collapse: separate;
+    border-spacing: 10px 10px;
+}
+td{
+    background-color: gray;
+    border-radius: 10px;
+    height: 100px;
+    width: 100px;
+    cursor: pointer;
+}
+#get_coordinates_btn, #render_table_btn{
+    display: flex;
+    justify-content: center;
+    background-color: #2f80ed;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    padding: 10px;
+    width: 200px;
+}
+#state_array{
+    border: 1px solid black;
+    height: 150px;
+    margin-top: 10px;
+    padding: 10px;
+    width: 177px;
+    resize: none;
+}
+.tilled_tile{
+    background-color: #f2994a;
+}
+.plant_tile{
+    background-color: #f2c94c;
+}
+.harvesting_tile{
+    background-color: #219653;
+}
+.hidden{
+    display: none;
+}
+.till_btn{
+    background-color: #2f80ed;
+    border: none;
+    color: white;
+    width: 76px;
+    border-radius: 5px;
+    padding: 5px;
+}
+.till_btn:focus{
+    outline: none;
+}
