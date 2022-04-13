@@ -15,85 +15,9 @@
 <body>
     <div id="wrapper">
         <header>Parmbill</header>
-        <table id="state_table">
-            <!-- <tr>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-            </tr>
+        <table id="state_table"></table>
 
-            <tr>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-            </tr>
-            
-            <tr>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-                <td class="tiles" data-tile_state="0">
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span>test</span>
-                </td>
-            </tr> -->
-        </table>
-
-        <p id="total_earnings">Total Earnings: <span>0$</span></p>
+        <p id="total_earnings">Total Earnings: <span id="earnings">0$</span></p>
         <!-- <button type="button" id="get_coordinates_btn">Get Coordinates</button> -->
 
         <!-- Element Clone Block -->
@@ -103,10 +27,9 @@
             <table class="state_table state_table_clone">
                 <tr class="tr_clone"></tr>
                 <tr>
-                    <td class="tiles tiles_clone" data-tile_state="0" role="button"></td>
-                    <img src="./assets/images/potato.png" alt="Potato">
-                    <span class="timer timer_clone"></span>
-                    <!-- <td class="tiles tiles_clone" data-tile_state="0"></td> -->
+                    <td class="tiles tiles_clone" data-tile_state="0" role="button">
+                        <span class="crop_countdown_timer"></span>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -124,30 +47,40 @@
             <!-- Modal body -->
             <div class="modal-body plant_modal_body">
                 <p class="select_crop_to_plant">Select a Crop to plant?</p>
-                <ul class="plant_container">
-                    <li class="plant active">
-                        <a href="#"><img src="../assets/images/potato.png" alt="Potato"></a>
-                        <span class="secs">60s / 10$</span>
-                    </li>
-                    <li class="plant">
-                        <a href="#"><img src="../assets/images/onion.png" alt="Onion"></a>
-                        <span class="secs">80s / 15$</span>
-                    </li>
-                    <li class="plant">
-                        <a href="#"><img src="../assets/images/carrot.png" alt="Carrot"></a>
-                        <span class="secs">120s / 25$</span>
-                    </li>
-                    <li class="plant">
-                        <a href="#"><img src="../assets/images/corn.png" alt="Corn"></a>
-                        <span class="secs">180s / 35$</span>
-                    </li>
-                </ul>
-                <div class="action_btn_container">
-                    <input type="hidden" id="countdown_timer" value="">
-                    <input type="hidden" id="image_src" value="">
-                    <button class="modal_cancel_btn">Cancel</button>
-                    <button class="modal_plant_btn">Plant</button>
-                </div>
+                <form method="post" id="crops_form">
+                    <div class="crops">
+                        <input type="radio" id="potato" name="crop" value="0" checked>
+                        <label class="plant potato" for="potato">
+                            <div class="crop crop_image">
+                                <span>60s / $10</span>
+                            </div>
+                        </label>
+
+                        <input type="radio" id="onion" name="crop" value="1">
+                        <label class="plant onion" for="onion">
+                            <div class="crop crop_image"></div>
+                            <span>80s / $15</span>
+                        </label>
+
+                        <input type="radio" id="carrot" name="crop" value="2">
+                        <label class="plant carrot" for="carrot">
+                            <div class="crop crop_image"></div>
+                            <span>120s / $25</span>
+                        </label>
+
+                        <input type="radio" id="corn" name="crop" value="3">
+                        <label class="plant corn" for="corn">
+                            <div class="crop crop_image"></div>
+                            <span>180s / $35</span>
+                        </label>
+                    </div>
+                    
+                    <div class="action_btn_container">
+                        <input type="hidden" id="crop_value" value="">
+                        <button class="modal_cancel_btn">Cancel</button>
+                        <button type="submit" class="modal_plant_btn">Plant</button>
+                    </div>
+                </form>
             </div>
           </div>
         </div>

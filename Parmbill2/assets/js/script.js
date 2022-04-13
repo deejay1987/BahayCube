@@ -1,11 +1,112 @@
 let tile_coordinates_array = [
-                                [0,0,0,0],
-                                [0,0,0,0],
-                                [0,0,0,0],
-                                [0,0,0,0]
+                                [
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    }
+                                ],
+                                [
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    }
+                                ],
+                                 [
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    }
+                                ],
+                                [
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop         : null
+                                    },
+                                    {    
+                                        tile_state_id   : 0,
+                                        tile_crop       : null
+                                    }
+                                ]
                             ];
 
-const TILE_STATES = {empty: "0", tilled: "1", has_plant: "2", for_harvesting: "3"}
+let tile_obj = {    
+                    tile_state_id   : 0,
+                    tile_crop       : null
+                }
+
+const CROP_ARRAY = [
+                        {
+                            type: "potato",
+                            harvest_time: 60,
+                            earnings: 10
+                        },
+                        {
+                            type: "onion",
+                            harvest_time: 80,
+                            earnings: 15
+                        },
+                        {
+                            type: "carrot",
+                            harvest_time: 120,
+                            earnings: 25
+                        },
+                        {
+                            type: "corn",
+                            harvest_time: 180,
+                            earnings: 35
+                        }
+                    ];
+
+const TILE_STATES = {
+                        empty: 0,
+                        tilled: 1,
+                        has_plant: 2,
+                        for_harvesting: 3
+                    }
 
 $(document).ready(function() {
 
@@ -14,17 +115,19 @@ $(document).ready(function() {
         .on("click", ".tiles", tileClick)
         .on("click", ".till_btn", tillBtnClick)
         .on("click", ".plant_btn_modal", plantBtnModalClick) /* Show modal */
-        .on("click", ".remove_btn_modal", removeBtnModalClick) /* Show modal after clicking remove popover */
-        .on("click", ".modal_plant_btn", modalPlantBtnClick) /* To plant */
+        .on("submit", "#crops_form", cropsFormSubmit) /* To plant */
         .on("click", ".modal_remove_btn", modalRemoveBtnClick) /* Remove button inside modal */
         .on("click", ".harvest_btn_modal", harvestBtnModalClick) /* Harvest/remove plant */
+        .on("click", ".remove_btn_modal", function(){ /* Show modal after clicking remove popover */
+            $("#remove_modal").modal("show");
+            $(".popover").hide();
+        })
         .on("click", ".cancel_btn", function(){
             $("#remove_modal").modal("hide");
         })
         .on("click", ".modal_cancel_btn", function(){
             $("#plant_modal").modal("hide");
         })
-        .on("click", ".plant", plantClick)
        
         // .on("click", "#get_coordinates_btn", getCoordinatesClickBtn)
         // .on("click", "#render_table_btn", renderTableBtnClick);
@@ -53,7 +156,7 @@ function tileClick(event){
     let tile_coordinates = target_tile_id.split("_");
     let data_tile_y = tile_coordinates[1];
     let data_tile_x = tile_coordinates[0];
-    let tile_state = tile_coordinates_array[ data_tile_y ] [ data_tile_x ];
+    let tile_obj = tile_coordinates_array[ data_tile_y ] [ data_tile_x ];
 
     $(".popover").popover("dispose");
 
@@ -62,13 +165,13 @@ function tileClick(event){
         let popover_btn = "";
 
         /* Change popover button depends on tile state */
-        if(tile_state == TILE_STATES.empty){
+        if(tile_obj.tile_state_id == TILE_STATES.empty){
             popover_btn ="<button type='button' class='till_btn' data-tile_x="+ data_tile_x +" data-tile_y="+ data_tile_y +">Till</button>";
         }
-        else if(tile_state == TILE_STATES.tilled){
+        else if(tile_obj.tile_state_id == TILE_STATES.tilled){
             popover_btn = "<button type='button' class='plant_btn_modal' data-tile_x="+ data_tile_x +" data-tile_y="+ data_tile_y +">Plant</button>";
         }
-        else if(tile_state == TILE_STATES.has_plant){
+        else if(tile_obj.tile_state_id == TILE_STATES.has_plant){
         // tile_coordinates_array[ data_tile_y ] [ data_tile_x ] = TILE_STATES.has_plant
             if(event.type == "dblclick"){
                 plantTileDblClick(data_tile_y, data_tile_x);
@@ -77,7 +180,7 @@ function tileClick(event){
                 popover_btn = "<button type='button' class='remove_btn_modal' data-tile_x="+ data_tile_x +" data-tile_y="+ data_tile_y +">Remove</button>";
             };
         }
-        else if(tile_state == TILE_STATES.for_harvesting){
+        else if(tile_obj.tile_state_id == TILE_STATES.for_harvesting){
             popover_btn = "<button type='button' class='harvest_btn_modal' data-tile_x="+ data_tile_x +" data-tile_y="+ data_tile_y +">Harvest</button>" + 
                             "<button type='button' class='remove_btn_modal' data-tile_x="+ data_tile_x +" data-tile_y="+ data_tile_y +">Remove</button></div>";
         }
@@ -100,13 +203,19 @@ function tillBtnClick(){
     // get tile x and tile y from till_btn  
     let data_tile_x = till_btn.attr("data-tile_x");
     let data_tile_y = till_btn.attr("data-tile_y");
-    let tile_state = tile_coordinates_array[ data_tile_y ] [ data_tile_x ];
+    let tile_obj = tile_coordinates_array[ data_tile_y ] [ data_tile_x ];
+    // let tile_state = tile_coordinates_array[ data_tile_y ] [ data_tile_x ];
 
     // console.log(tile_coordinates_array[ tile_coordinates[1] ][ tile_coordinates[0] ]);
     // console.log(tile_coordinates_array[ data_tile_y ] [ data_tile_x ]);
     // change value of tile coordinates array [tile_y] [tile_x] = 1
-    if(tile_state == TILE_STATES.empty){
-        tile_coordinates_array[ data_tile_y ] [ data_tile_x ] = TILE_STATES.tilled
+
+    // if(tile_state == TILE_STATES.empty){
+    //     tile_coordinates_array[ data_tile_y ] [ data_tile_x ] = TILE_STATES.tilled
+    // }
+    
+    if(tile_obj.tile_state_id == TILE_STATES.empty){
+        tile_coordinates_array[ data_tile_y ] [ data_tile_x ].tile_state_id = TILE_STATES.tilled
     }
 
     renderTableBtnClick();
@@ -117,12 +226,13 @@ function plantBtnModalClick(){
     let plant_btn = $(this);
     let data_tile_x = plant_btn.attr("data-tile_x");
     let data_tile_y = plant_btn.attr("data-tile_y");
-    let tile_state = tile_coordinates_array[ data_tile_y ] [ data_tile_x ];
+    let tile_obj = tile_coordinates_array[ data_tile_y ] [ data_tile_x ];
 
-    if(tile_state == TILE_STATES.tilled){
+    if(tile_obj.tile_state_id == TILE_STATES.tilled){
         $("#plant_modal").modal("show");
     }
 
+    $("#image_src").val($(".plant").find("img").attr("alt"));
     $(".popover").hide();
     renderTableBtnClick();
 }
@@ -165,45 +275,61 @@ function getCoordinatesClickBtn() {
 } 
 
 function renderTableBtnClick(){
-    let render_tile_value = $("#state_array").val();
-    let tiles_string_array = render_tile_value.split("\n");
-    let tiles_index_total = 0;
-    let tiles_string = "";
     let tile_coordinates = [];
     let state_table = $("#state_table");
 
-    for(let tiles_string_index = 0; tiles_string_index < tiles_string_array.length;  tiles_string_index++){
-        let tile_string = tiles_string_array[tiles_string_index];
+    tile_coordinates = tile_coordinates_array;
 
-        tiles_index_total += tiles_string_index;
-        tiles_string += tile_string.trim().replace(" ", "");
-    }
-
-        // tile_coordinates = JSON.parse(tiles_string);
-        tile_coordinates = tile_coordinates_array;
-
-        /* Append/Render tile coordinates */
-        state_table.html("");
+    /* Append/Render tile coordinates */
+    state_table.html("");
 
     let tile_colors_array = ["", "tilled_tile", "plant_tile", "harvesting_tile"];
 
     for(let render_tile_coordinates = 0; render_tile_coordinates < tile_coordinates.length; render_tile_coordinates++){
         let tiles_index = tile_coordinates[render_tile_coordinates];
-        // let table_row = $("<tr></tr>");
+        // let table_row = $("<tr></tr>");  
         let table_row_clone = $(".tr_clone").clone();
 
         table_row_clone.removeClass("tr_clone");
 
         for(let tiles_property in tiles_index){
-            let tile_state = tiles_index[tiles_property];
+            // let tile_state = tiles_index[tiles_property];
+            let tile_obj = tiles_index[tiles_property];
             // let active_tile = (tile_state == ) ? "active_tile" : "";
             let tile_clone = $(".tiles_clone").clone();
 
-                tile_clone.removeClass("tiles_clone");
-                tile_clone.attr("data-tile_state", tile_state);
-                tile_clone.attr("id", "tile_" + tiles_property + "_" + render_tile_coordinates);
-                tile_clone.addClass(tile_colors_array[tile_state]);
+            tile_clone.removeClass("tiles_clone");
+            tile_clone.attr("data-tile_state", tile_obj.tile_state_id);
+            // tile_clone.attr("data-tile_state", tile_state);
+            tile_clone.attr("id", "tile_" + tiles_property + "_" + render_tile_coordinates);
+            tile_clone.addClass(tile_colors_array[tile_obj.tile_state_id]);
+            // tile_clone.addClass(tile_colors_array[tile_state]);
+            let crop_countdown_timer = tile_clone.find(".crop_countdown_timer");
+
+            if(tile_obj.tile_crop != null){
+                tile_clone.addClass(tile_obj.tile_crop.type);
                 
+                setTimeout(function(){
+                    let harvest_time = tile_obj.tile_crop.harvest_time;
+                    crop_countdown_timer.text(harvest_time);
+                    
+                    let interval = setInterval(function() {
+                        crop_countdown_timer.text(harvest_time);
+                        harvest_time--;
+
+                        if (harvest_time <= 0) {
+                            crop_countdown_timer.text("$" + tile_obj.tile_crop.earnings)
+                            /* NOTE: will change tile_state for harvesting */
+                            clearInterval(interval);
+                            return;
+                        }
+                        else{
+                            crop_countdown_timer.text(harvest_time + "s");
+                        }
+                    }, 1000);
+                });
+            }
+            
 
             row_data = tile_clone;
             // row_data = $("<td  class='tiles "+ active_tile +"' data-tile_state=" + tile_state + ">");
@@ -213,70 +339,50 @@ function renderTableBtnClick(){
         }
         state_table.append(table_row_clone);
     }
-    // $("[data-bs-toggle='popover']").popover({
-    //     placement   : "bottom",
-    //     html        : true,
-    //     content     : "<button type='button' class='till_btn'>Till</button>"
-    // });
 }
 
 function plantTileDblClick(y_coordinates, x_coordinates){
-    $(".popover").popover("dispose");
-    tile_coordinates_array[ y_coordinates ] [ x_coordinates ] = TILE_STATES.for_harvesting
-    renderTableBtnClick();
 
+    $(".popover").popover("dispose");
+
+    tile_coordinates_array[ y_coordinates ] [ x_coordinates ].tile_state_id = TILE_STATES.for_harvesting
+   
+    renderTableBtnClick();
     $(".popover").hide();
         return;
     }
-
-    /* This will show the remove modal after clicking popover remove button */
-function removeBtnModalClick(){
-
-    $("#remove_modal").modal("show");
-    $(".popover").hide();
-}
 
 /* This will go back to empty tile after clicking the remove button inside the modal */
 function modalRemoveBtnClick(){
     let remove_btn_modal =  $(".remove_btn_modal");
     let data_tile_x = remove_btn_modal.attr("data-tile_x");
     let data_tile_y = remove_btn_modal.attr("data-tile_y");
-    let tile_state = tile_coordinates_array[ data_tile_y ] [ data_tile_x ];
 
-    if(tile_state == TILE_STATES.has_plant){
-        tile_coordinates_array[ data_tile_y ] [ data_tile_x ] = TILE_STATES.empty
-    }
-    else{
-        tile_coordinates_array[ data_tile_y ] [ data_tile_x ] = TILE_STATES.empty
-    }
-
-    $("#remove_modal").modal("hide");
+    tile_coordinates_array[ data_tile_y ] [ data_tile_x ].tile_state_id = TILE_STATES.empty;
+    tile_coordinates_array[ data_tile_y ] [ data_tile_x ].tile_crop = null;
+    
     renderTableBtnClick();
+    $("#remove_modal").modal("hide");
 }
 
-/* This will change the tile state after clicking the plant button inside the modal*/
-function modalPlantBtnClick(){
+/* This will change the tile state and append crop to the tile after clicking the plant button inside the modal*/
+function cropsFormSubmit(e){
+    e.preventDefault();
     let plant_btn_modal = $(".plant_btn_modal");
     let data_tile_x = plant_btn_modal.attr("data-tile_x");
     let data_tile_y = plant_btn_modal.attr("data-tile_y");
-    let tile_state = tile_coordinates_array[ data_tile_y ] [ data_tile_x ];
-    let crop_array = ["potato", "onion", "carrot", "corn"];
-    let plant_crop = [];
-    
+    let tile_obj = tile_coordinates_array[ data_tile_y ][ data_tile_x ];
+    let crops_form = $("#crops_form").serializeArray();
+    let selected_crop_id = crops_form[0].value;
 
-    if(tile_state == TILE_STATES.tilled){
-        tile_coordinates_array[ data_tile_y ] [ data_tile_x ] = TILE_STATES.has_plant
+    if(tile_obj.tile_state_id == TILE_STATES.tilled){
+        tile_coordinates_array[ data_tile_y ] [ data_tile_x ].tile_state_id = TILE_STATES.has_plant;
+        tile_coordinates_array[ data_tile_y ] [ data_tile_x ].tile_crop = CROP_ARRAY[selected_crop_id];
     }
 
-    for(let crop_index = 0; crop_index < crop_array.length; crop_index++){
-        let crop = crop_array[crop_index] = "./assets/images/" + crop_array[crop_index] + ".png";
-
-        plant_crop.push(crop);
-        console.log(plant_crop);
-    }
-
-    $("#plant_modal").modal("hide");
     renderTableBtnClick();
+    $("#plant_modal").modal("hide");
+    return;
 }
 
 /* Harvest/remove plant and go back to empty tile state */
@@ -286,21 +392,10 @@ function harvestBtnModalClick(){
     let data_tile_y = harvest_btn_modal.attr("data-tile_y");
     let tile_state = tile_coordinates_array[ data_tile_y ] [ data_tile_x ];
 
-    if(tile_state == TILE_STATES.for_harvesting){
-        tile_coordinates_array[ data_tile_y ] [ data_tile_x ] = TILE_STATES.empty
+    if(tile_state.tile_state_id == TILE_STATES.for_harvesting){
+        tile_coordinates_array[ data_tile_y ] [ data_tile_x ].tile_state_id = TILE_STATES.empty
     }
 
     renderTableBtnClick();
     $(".popover").hide();
-}
-
-function plantClick(){
-    let plant = $(this);
-
-    plant.addClass("active");
-    plant.siblings().removeClass("active");
-
-    plant.closest(".plant_container").siblings(".action_btn_container").find("#image_src").val(plant.find("img").attr("src"));
-    plant.closest(".plant_container").siblings(".action_btn_container").find("#countdown_timer").val(plant.find(".secs").text());
-    
 }

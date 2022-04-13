@@ -5,15 +5,6 @@
 .hidden {
   display: none !important;
 }
-.tilled_tile {
-  background-color: #f2994a !important;
-}
-.plant_tile {
-  background-color: #f2c94c !important;
-}
-.harvesting_tile {
-  background-color: #219653 !important;
-}
 .till_btn,
 .plant_btn_modal {
   background-color: #2f80ed;
@@ -36,10 +27,6 @@
   background-color: #4F4F4F;
   width: 80px;
 }
-.active {
-  background-color: #F2C94C !important;
-  outline: 1px solid darkgray;
-}
 #wrapper {
   background-color: #6FCF97;
   height: 100vh;
@@ -59,8 +46,44 @@
   border-radius: 10px;
   cursor: pointer;
   height: 100px;
-  width: 100px;
   text-align: center;
+  width: 100px;
+  padding: 10px;
+  background-repeat: no-repeat;
+  position: relative;
+}
+#wrapper #state_table .tiles.potato {
+  background-image: url(../images/potato.png);
+  background-position: 16px 13px;
+}
+#wrapper #state_table .tiles.onion {
+  background-image: url(../images/onion.png);
+  background-position: 26px 13px;
+}
+#wrapper #state_table .tiles.carrot {
+  background-image: url(../images/carrot.png);
+  background-size: 28px 60px;
+  background-position: 36px 13px;
+}
+#wrapper #state_table .tiles.corn {
+  background-image: url(../images/corn.png);
+  background-size: 42px 60px;
+  background-position: 30px 13px;
+}
+#wrapper #state_table .tiles.tilled_tile {
+  background-color: #f2994a !important;
+}
+#wrapper #state_table .tiles.plant_tile {
+  background-color: #f2c94c !important;
+}
+#wrapper #state_table .tiles.harvesting_tile {
+  background-color: #219653 !important;
+}
+#wrapper #state_table .tiles .crop_countdown_timer {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
 }
 #wrapper #total_earnings {
   font-weight: 700;
@@ -154,26 +177,61 @@
   text-align: center;
   width: 100%;
 }
-.modal .modal-dialog .modal-content .plant_modal_body .plant_container {
+.modal .modal-dialog .modal-content .plant_modal_body .crops {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  margin-bottom: 21px;
-  row-gap: 27px;
+  gap: 16px;
+  margin-bottom: 32px;
+  row-gap: 32px;
 }
-.modal .modal-dialog .modal-content .plant_modal_body .plant_container li {
-  background-color: #E0E0E0;
-  border-radius: 5px;
-  cursor: pointer;
+.modal .modal-dialog .modal-content .plant_modal_body .crops input {
+  margin: 0px;
+  padding: 0px;
+  appearance: none;
   display: flex;
-  flex-direction: column;
-  height: 100px;
-  padding: 5px;
-  width: 40%;
 }
-.modal .modal-dialog .modal-content .plant_modal_body .plant_container li:focus {
-  outline: 1px solid darkgray;
+.modal .modal-dialog .modal-content .plant_modal_body .crops input:checked + .plant {
+  background-color: #f2c94c;
+  border: 1px solid gray;
   border-radius: 10px;
+}
+.modal .modal-dialog .modal-content .plant_modal_body .crops .crop {
+  background-position: 20px 8px;
+  background-repeat: no-repeat;
+  background-size: 60px 60px;
+  border-radius: 10px;
+  cursor: pointer;
+  height: 100px;
+  margin: 0px;
+  width: 100px;
+}
+.modal .modal-dialog .modal-content .plant_modal_body .crops .plant {
+  background-color: gray;
+  border-radius: 10px;
+  position: relative;
+}
+.modal .modal-dialog .modal-content .plant_modal_body .crops .plant span {
+  bottom: 7px;
+  left: 0px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+.modal .modal-dialog .modal-content .plant_modal_body .crops .potato .crop_image {
+  background-image: url(../images/potato.png);
+}
+.modal .modal-dialog .modal-content .plant_modal_body .crops .onion .crop_image {
+  background-image: url(../images/onion.png);
+}
+.modal .modal-dialog .modal-content .plant_modal_body .crops .carrot .crop_image {
+  background-image: url(../images/carrot.png);
+  background-size: 28px 60px;
+  background-position: 36px 8px;
+}
+.modal .modal-dialog .modal-content .plant_modal_body .crops .corn .crop_image {
+  background-image: url(../images/corn.png);
+  background-size: 42px 60px;
+  background-position: 30px 8px;
 }
 .modal .modal-dialog .modal-content .plant_modal_body .action_btn_container {
   display: flex;
